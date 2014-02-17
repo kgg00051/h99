@@ -1,13 +1,20 @@
 -- H99
 -- http://www.haskell.org/haskellwiki/H-99:_Ninety-Nine_Haskell_Problems
 
+-- last
+-- init
+-- tail
+-- head
+
+
 -- Q1 リストの最後の要素
--- preludeにはlastがある
 myLast :: [a] -> a
 myLast [a]  = a   -- myLast (a:[]) = a これでもいい
 myLast (a:as) = myLast as
 q1 = myLast [1,2,3,4]
 
+-- preludeにはlastがある
+myLast' = last
 
 
 -- Q2 リストの最後1つ前
@@ -19,6 +26,9 @@ myButLast' [_,a] = a
 myButLast' (_:as) = myButLast as
 
 q2 = myButLast' [1,2]
+
+-- prelude的には
+myButLast'' = last . init
 
 
 -- Q3 リストのn番目の要素 nは1スタート
@@ -94,6 +104,17 @@ listrev :: Bbb a -> [a]
 listrev (List2 []) =  []
 listrev (List2 (a:as)) = (listrev (List2 as)) ++ [a]
 
-
-
 -- List [Elem 1,Elem 2,List [Elem 3, List [Elem 4]]]
+
+
+-- Q8 リストから連続する重複した要素を削除
+compress :: (Eq a) => [a] -> [a]
+compress [] = []
+compress (x:[]) = [x]
+compress (x:y:ys)
+  | x == y    = compress (y:ys)
+  | otherwise = x : (compress (y : ys))
+
+q8 = (compress [1,1,2,3,3,3,3,3,1,0,0,0])
+     ++ (compress [])
+     ++ (compress [9,9])
